@@ -1,0 +1,22 @@
+{
+  "name": "doostagram",
+  "version": "1.0.0",
+  "repository": "https://github.com/thekanon/doostagram",
+  "author": "Doo Lee <dlengjs12@naver.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "graphql-tools": "^6.0.5",
+    "graphql-yoga": "^1.18.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.1",
+    "@babel/node": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server.js"
+  }
+}

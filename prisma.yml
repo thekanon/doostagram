@@ -1,0 +1,6 @@
+endpoint: https://us1.prisma.sh/dlengjs12-e14429/doostagram/dev
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma-client/

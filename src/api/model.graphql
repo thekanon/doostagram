@@ -61,6 +61,7 @@ type File {
 type Room {
     id : ID! 
     participants: [User!]!
+    messages: [Message!]!
     createdAt: String
     updatedAt: String    
 }
@@ -69,7 +70,7 @@ type Message {
     text: String!
     from: User! 
     to: User! 
-    Room: Room!
+    room: Room!
     createdAt: String
     updatedAt: String    
 }

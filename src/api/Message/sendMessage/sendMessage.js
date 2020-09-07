@@ -1,5 +1,5 @@
-import { prisma } from "../../../generated/prisma-client";
-import { ROOM_FRAGMENT } from "../../fragments"; 
+import { prisma } from "../../../../generated/prisma-client";
+import { ROOM_FRAGMENT } from "../../../fragments"; 
 
 export default {
     Mutation: {
@@ -8,6 +8,7 @@ export default {
             const { user } = request;
             const { roomId, message, toId } = args;
             let room;
+            console.log(args)
             if (roomId === undefined) {
                 if (user.id !== toId) {
                     room = await prisma

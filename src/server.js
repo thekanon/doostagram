@@ -48,21 +48,23 @@ var client_secret = 'rGLmrR9FZL';
 //번역할 문장 가져옴(json으로 가져오면 좋을듯)
 var query = "I want more. Choose a prettier dress.";
 
+app.listen(3000, function () {
+    console.log('http://127.0.0.1:3000/translate app listening on port 3000!');
+});
+
 //translate 
 app.get('/translate', function (req, res) {
-
-    const { spawn } = require('child_process');
-    const pyProg = spawn('python', ['./api/Python/bbc.py']);
-    var aaa;
-    pyProg.stdout.on('data', function(data) {
-
-        console.log(data.toString());
-        res.write(data);
-        res.end('end');
-
-        aaa = data
-    });
-    // console.log(pyProg)
+    try{
+        var spawn = require("child_process").spawn; 
+        var process = spawn('python',["./test.py"] );     
+        process.stdout.on('data', function(data) { 
+            res.send(data.toString()); 
+        }) ;
+    } catch(e) {
+        console.error(e);
+        res.send(process); 
+    }
+    // res.send(process); 
 //    var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
 //    var request = require('request');
 //    var options = {
@@ -79,8 +81,5 @@ app.get('/translate', function (req, res) {
 //        console.log('error = ' + response.statusCode);
 //      }
 //    });
- });
- app.listen(3000, function () {
-   console.log('http://127.0.0.1:3000/translate app listening on port 3000!');
  });
 

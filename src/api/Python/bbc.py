@@ -1,7 +1,12 @@
 ## parser.py
 import requests
 import time
+import sys
+import io
 from bs4 import BeautifulSoup
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 count = 0
 # while True:
@@ -11,7 +16,7 @@ s = requests.Session()
 
 # 헤더 설정
 headers = {
-    'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Mobile Safari/537.36'
+    'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'
 }
     
 # HTTP Post Request: requests대신 s 객체를 사용한다.
@@ -21,7 +26,9 @@ headers = {
 # jusik
 # baseball_new9
 # aoegame
-req = s.post('http://feeds.bbci.co.uk/news/rss.xml')
+# req = s.get('http://feeds.bbci.co.uk/news/rss.xml')
+req = s.get('http://feeds.bbci.co.uk/news/rss.xml',headers=headers)
+
 
 ## HTML 소스 가져오기
 html = req.text
@@ -34,8 +41,22 @@ is_ok = req.ok
 
 ## 쉬운 구문분석을 위한 BeautifulSoup 호출
 bs = BeautifulSoup ( html , "html.parser" )
+fStr = []
+cnt = 0
+for item in bs.find_all('item'):
+    fStr.append([])
+    if(item.find(text="BBC News - Home") ) : 
+        continue
+    else :
+        fStr[cnt].append(item.find_all(["title","description"])[0].get_text())
+        fStr[cnt].append(item.find_all(["title","description"])[1].get_text())
+        cnt+=1
+print(fStr)
+    # fStr+="\n"
 
-print(bs)
+    # print(fStr)
+
+# print(bs)
 # ## 파일 오픈 후 test.txt에 현재 웹사이트에서 파싱한 데이터를 모두 넣는다.
 # f = open('test.txt', mode='w', encoding='utf-8')
 

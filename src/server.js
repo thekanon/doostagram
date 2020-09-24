@@ -14,14 +14,17 @@ import schema from "./schema"
 import { authenticateJwt } from "./passport"
 import { isAuthenticated } from "./middlewares"
 
+
+
 //Util(Mail) import
-// import {sendSecretMail} from "./utils"
-// sendSecretMail("dlengjs123@gmail.com","aaaaaaa@Z") 당장 메일 보낼게 아니므로 일단 제거
+import {sendSecretMail} from "./utils"
+sendSecretMail("dlengjs123@gmail.com","aaaaaaa@Z")
 
 
 //환경변수를 .env에서 읽어오도록 함
 const PORT = process.env.PORT || 4000
 //GraphQL의 schema를 정의
+
 
 //서버 생성 및 실행
 const server = new GraphQLServer({ 
@@ -44,43 +47,39 @@ var app = express()
 // 클라이언트 정보 추가
 var client_id = 'n3RO1LZqp6aV3zGYnzha'
 
-
+//Python 파일 경로
 const path = require('path')
+const pyPath = path.join(__dirname, 'api\\python\\bbc.py')
 var client_secret = 'rGLmrR9FZL'
 
 //번역할 문장 가져옴(json으로 가져오면 좋을듯)
 var query = "I want more. Choose a prettier dress."
 
+//크로스도메인 이슈 해결
+const cors = require('cors');
+app.use(cors());
 app.listen(3000, function () {
-    console.log('http://127.0.0.1:3000/translate app listening on port 3000!')
+    console.log(pyPath)
 })
 //translate 
 app.get('/translate', function (req, res) {
     try{
-
-        // fetch('http://feeds.bbci.co.uk/news/rss.xml')
-        //     .then(response => {
-                // console.log(response)
-        //     })
-        //     .catch(error => {
-        //         console.error(error)
-        //     })
-
         var spawn = require("child_process").spawn 
-        var process = spawn('python',[path.join(__dirname, 'test.py')] )
+        var process = spawn('python',[pyPath] )
         process.stdout.on('data', function(data) { 
-            // 두맘(data)
-            console.log(data.toString())
+            // res = convertWebToString(data)
+            // console.log(data.toString())
+            res.send(convertWebToString(data))
+            res.end()
+            return
         }) 
-        process.stderr.on('data', function(data) { 
-            // 두맘(data)
-            console.error(data.toString())
-        }) 
-        process.stdout.pipe(res)
+        // process.stdout.pipe(res)
     } catch(error) {
         console.error(error)
         // res.send(process) //??
         res.status(500).send({error: error.message})
+        res.end()
+        return
     }
     // res.send(process) 
 //    var api_url = 'https://openapi.naver.com/v1/papago/n2mt'
@@ -100,7 +99,12 @@ app.get('/translate', function (req, res) {
 //      }
 //    })
  })
-
-function 두맘(data) {
-    console.log(data)
+function convertWebToString(data) {
+    //가져온 데이터가 Object 형태인데, 왜인지 모르겠지만 eval로 다시 초기화 하지 않으면 버퍼로 데이터를 가지고 있음
+    var myJsonString = (data.toString());
+    myJsonString = eval(myJsonString);
+    return myJsonString
+    // //eval로 초기화 시 array형태의 데이터 얻을 수 있음.
+    // console.log(myJsonString)
+    // 
 }

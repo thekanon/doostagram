@@ -24,16 +24,17 @@ const sendMail = email => {
 };
 
 export const sendSecretMail = (adress, secret) => {
-    const DOMAIN = 'Doostagram';
+    const DOMAIN = process.env.API_DOMAIN;
     const mg = mailgun({apiKey: process.env.API_KEY, domain: DOMAIN});
     const data = {
         from: "dlengjs123@gmail.com",
         to: adress,
-        subject: "🔒Login Secret for Prismagram🔒",
-        text: `Hello! Your login secret is <strong>${secret}</strong>.<br/>Copy paste on the app/website to log in`
+        subject: "Login Secret for Prismagram",
+        html: `Hello! Your login secret is <strong>${secret}</strong>.<br/>Copy paste on the app/website to log in`
     };
-    mg.messages().send(data, function (error, body) {
-        console.log(error,body);
+    console.log(data)
+    mg.messages().send(data, function (body) {
+        console.log(body);
     });
 };
 

@@ -18,7 +18,7 @@ import { isAuthenticated } from "./middlewares"
 
 //Util(Mail) import
 import {sendSecretMail} from "./utils"
-sendSecretMail("dlengjs123@gmail.com","aaaaaaa@Z")
+// sendSecretMail("dlengjs123@gmail.com","aaaaaaa@Z")
 
 
 //환경변수를 .env에서 읽어오도록 함

@@ -6,7 +6,8 @@ export default {
         confirmSecret: async(_, args)=> {
             const {email, secret} = args;
             const user = await prisma.user({ email });                
-
+            console.log(user.loginSecret)
+            console.log(secret)
             if(user.loginSecret === secret){
                 await prisma.updateUser({where:{id: user.id}, 
                     data:{

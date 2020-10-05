@@ -5,11 +5,13 @@ export default {
       isAuthenticated(request);
       const { user } = request;
       const userProfile = await prisma.user({ id: user.id });
+      console.log(userProfile)
       const posts = await prisma.user({ id: user.id }).posts();
-      return {
-        user: userProfile,
-        posts
-      };
+    //   return {
+    //     user: userProfile,
+    //     posts
+    //   };
+        return prisma.user({ id: user.id });
     }
   }
 };

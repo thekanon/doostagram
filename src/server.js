@@ -44,16 +44,17 @@ var express = require('express')
 // 미들웨어 변수 선언
 var app = express()
 
-// 클라이언트 정보 추가
-var client_id = 'n3RO1LZqp6aV3zGYnzha'
-
 //Python 파일 경로
 const path = require('path')
 const pyPath = path.join(__dirname, 'api\\python\\bbc.py')
+
+
+// 클라이언트 정보 추가
+var client_id = 'n3RO1LZqp6aV3zGYnzha'
 var client_secret = 'rGLmrR9FZL'
 
 //번역할 문장 가져옴(json으로 가져오면 좋을듯)
-var query = "I want more. Choose a prettier dress."
+var query = "Trump health monitored after weekend of confusion"
 
 //크로스도메인 이슈 해결
 const cors = require('cors');
@@ -62,7 +63,7 @@ app.listen(3000, function () {
     console.log(pyPath)
 })
 //translate 
-app.get('/translate', function (req, res) {
+app.get('/viewNews', function (req, res) {
     try{
         var spawn = require("child_process").spawn 
         var process = spawn('python',[pyPath] )
@@ -81,24 +82,26 @@ app.get('/translate', function (req, res) {
         res.end()
         return
     }
-    // res.send(process) 
-//    var api_url = 'https://openapi.naver.com/v1/papago/n2mt'
-//    var request = require('request')
-//    var options = {
-//        url: api_url,
-//        form: {'source':'en', 'target':'ko', 'text':query},
-//        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
-//     }
-//    request.post(options, function (error, response, body) {
-//      if (!error && response.statusCode == 200) {
-//        res.writeHead(200, {'Content-Type': 'text/jsoncharset=utf-8'})
-//        res.end(body)
-//      } else {
-//        res.status(response.statusCode).end()
-//        console.log('error = ' + response.statusCode)
-//      }
-//    })
+   
  })
+app.get('/translate', function (req, res) {
+    var api_url = 'https://openapi.naver.com/v1/papago/n2mt'
+    var request = require('request')
+    var options = {
+        url: api_url,
+        form: {'source':'en', 'target':'ko', 'text':query},
+        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+     }
+    request.post(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        res.writeHead(200, {'Content-Type': 'text/json; charset=UTF-8'})
+        res.end(body)
+      } else {
+        res.status(response.statusCode).end()
+        console.log('error = ' + response.statusCode)
+      }
+    })
+})
 function convertWebToString(data) {
     //가져온 데이터가 Object 형태인데, 왜인지 모르겠지만 eval로 다시 초기화 하지 않으면 버퍼로 데이터를 가지고 있음
     var myJsonString = (data.toString());

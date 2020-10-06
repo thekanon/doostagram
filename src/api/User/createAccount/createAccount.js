@@ -10,7 +10,8 @@ export default {
                 lastName,
                 bio
             });
-            return user;
+            // return user; 20201006 return user 시 데이터 에러 발생함(boolean 값이어야 함)
+            return true;
         }
     }
 }

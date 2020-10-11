@@ -84,10 +84,11 @@ app.get('/viewNews', function (req, res) {
     }
    
  })
-app.get('/translate/:tran', function (req, res) {
+app.post('/translate', function (req, res) {
     var api_url = 'https://openapi.naver.com/v1/papago/n2mt'
     var request = require('request')
-    var tran = req.params.tran
+    var tran = req.body
+    console.log(req.data)
     var options = {
         url: api_url,
         form: {'source':'en', 'target':'ko', 'text':tran},

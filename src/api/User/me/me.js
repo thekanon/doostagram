@@ -11,7 +11,7 @@ export default {
     //     user: userProfile,
     //     posts
     //   };
-        return prisma.user({ id: user.id });
+        return await prisma.user({ id: user.id });
     }
   }
 };

@@ -59,6 +59,8 @@ var query = "Trump health monitored after weekend of confusion"
 //크로스도메인 이슈 해결
 const cors = require('cors');
 app.use(cors());
+// 내장 미들웨어 연결
+app.use(express.json());
 app.listen(3000, function () {
     console.log(pyPath)
 })
@@ -84,26 +86,27 @@ app.get('/viewNews', function (req, res) {
     }
    
  })
-app.post('/translate', function (req, res) {
+app.post('/translate', function (req, res, next) {
     var api_url = 'https://openapi.naver.com/v1/papago/n2mt'
     var request = require('request')
-    var tran = req.body
-    console.log(req.data)
+    var tran = req.body.data
+    console.log(req.body.data)
     var options = {
         url: api_url,
         form: {'source':'en', 'target':'ko', 'text':tran},
         headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
-     }
+    }
     request.post(options, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         res.writeHead(200, {'Content-Type': 'text/json; charset=UTF-8'})
+        console.log(body)
         res.end(body)
       } else {
         res.status(response.statusCode).end()
         console.log('error = ' + response.statusCode)
       }
     })
-})
+});
 function convertWebToString(data) {
     //가져온 데이터가 Object 형태인데, 왜인지 모르겠지만 eval로 다시 초기화 하지 않으면 버퍼로 데이터를 가지고 있음
     var myJsonString = (data.toString());

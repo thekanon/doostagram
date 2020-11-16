@@ -50,8 +50,10 @@ const pyPath = path.join(__dirname, 'api\\python\\bbc.py')
 
 
 // 클라이언트 정보 추가
-var client_id = 'n3RO1LZqp6aV3zGYnzha'
-var client_secret = 'rGLmrR9FZL'
+// var client_id = 'n3RO1LZqp6aV3zGYnzha'
+// var client_secret = 'rGLmrR9FZL'
+var client_id = 'd2BuiwA0wIr6CU4jZJ3J'
+var client_secret = 'qZX0BRaY3Y'
 
 //번역할 문장 가져옴(json으로 가져오면 좋을듯)
 var query = "Trump health monitored after weekend of confusion"
